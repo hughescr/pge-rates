@@ -1,0 +1,36 @@
+{
+  "name": "@hughescr/pge-rates",
+  "description": "Data about PG&E rate plans",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "1.0.1",
+  "keywords": [
+    "pge",
+    "electricity",
+    "ev",
+    "rate"
+  ],
+  "homepage": "https://github.com/hughescr/pge-rates",
+  "bugs": {
+    "url": "https://github.com/hughescr/pge-rates/issues"
+  },
+  "license": "BSD-3-Clause",
+  "author": "Craig Hughes <craig.npm@rungie.com> (https://npmjs.org/~hughescr)",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hughescr/pge-rates.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "postversion": "git commit -m \"Bump package version to $npm_package_version\" package.json; git flow release start $npm_package_version; git flow release finish -m $npm_package_version $npm_package_version; git checkout develop; git merge master"
+  },
+  "readmeFilename": "README.md",
+  "files": [
+    "index.js",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">= 4.x"
+  }
+}
