@@ -315,8 +315,7 @@ const month_lookup = _.chain(_.range(12))
                     .object()
                     .value();
 
-const checkCalendarDate = _.memoize((month, date, start_date, end_date) =>
-{
+const checkCalendarDate = _.memoize((month, date, start_date, end_date) => {
     const after_start = (month > month_lookup[start_date.month]) ||
                       (month == month_lookup[start_date.month] && date >= start_date.day);
 
@@ -327,58 +326,46 @@ const checkCalendarDate = _.memoize((month, date, start_date, end_date) =>
 
     return after_start && before_end;
 },
-(month, date, start_date, end_date) =>
-{
+(month, date, start_date, end_date) => {
     return `${month} ${date} ${start_date.month} ${start_date.day} ${end_date.month} ${end_date.day}`;
 });
 
-const checkDayOfWeek = _.memoize((day, start_day, end_day) =>
-{
+const checkDayOfWeek = _.memoize((day, start_day, end_day) => {
     // console.log(`${day} ${start_day} ${end_day}`);
     return (day >= day_lookup[start_day] &&
             day <= day_lookup[end_day]);
 },
-(day, start_day, end_day) =>
-{
+(day, start_day, end_day) => {
     return `${day} ${start_day} ${end_day}`;
 });
 
-const checkTimeOfDay = _.memoize((some_date, start_time, end_time) =>
-{
+const checkTimeOfDay = _.memoize((some_date, start_time, end_time) => {
     const checkHour = some_date.hour();
 
     return (checkHour >= start_time && checkHour < end_time);
 },
-(some_date, start_time, end_time) =>
-{
+(some_date, start_time, end_time) => {
     return `${some_date.hour()} ${start_time} ${end_time}`;
 });
 
-exports.timePeriodForRateAndDate = _.memoize((rate, date) =>
-{
-    const result = _.find(rate.schedule, condition =>
-    {
+exports.timePeriodForRateAndDate = _.memoize((rate, date) => {
+    const result = _.find(rate.schedule, condition => {
         // If there's no start period, then we match by default as we've reached the end
-        if(!condition.start_cal)
-        {
+        if(!condition.start_cal) {
             return true;
         }
 
         // We are in this calendar period
-        if(checkCalendarDate(date.month(), date.date(), condition.start_cal, condition.end_cal))
-        {
+        if(checkCalendarDate(date.month(), date.date(), condition.start_cal, condition.end_cal)) {
             // If there's no start day, then we match by default as we've reached the end of this calendar chunk
-            if(!condition.start_day)
-            {
+            if(!condition.start_day) {
                 return true;
             }
 
             // Check day of week (use Sunday = 7)
-            if(checkDayOfWeek(date.day() || 7, condition.start_day, condition.end_day))
-            {
+            if(checkDayOfWeek(date.day() || 7, condition.start_day, condition.end_day)) {
                 // Check time of day
-                if(checkTimeOfDay(date, condition.start_time, condition.end_time))
-                {
+                if(checkTimeOfDay(date, condition.start_time, condition.end_time)) {
                     return true;
                 }
             }
@@ -404,10 +391,8 @@ exports.timePeriodForRateAndDate = _.memoize((rate, date) =>
   This function will return the cost for a given day's usage tiered for baseline with the provided ratio
 */
 
-exports.priceForRatePeriodAmountBaselineRatio = function(rate, period, amount, baseline, ratio)
-{
-    if(!rate.prices[period].end)
-    {
+exports.priceForRatePeriodAmountBaselineRatio = function(rate, period, amount, baseline, ratio) {
+    if(!rate.prices[period].end) {
         // Easy: no tiers here!
         return amount * rate.prices[period].rate;
     }
@@ -416,10 +401,8 @@ exports.priceForRatePeriodAmountBaselineRatio = function(rate, period, amount, b
     const dailyBaseline = baseline[period.split(' ')[0]] * ratio;
 
     // Now we'll iterate through the tiers until we've consumed all the amount
-    return _.reduce(rate.prices[period], (memo, tier) =>
-    {
-        if(amount <= memo.accumulated)
-        {
+    return _.reduce(rate.prices[period], (memo, tier) => {
+        if(amount <= memo.accumulated) {
             // We've run out amount, so ignore this tier
             return memo;
         }
