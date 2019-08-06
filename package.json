@@ -34,12 +34,12 @@
     "node": ">= 4.x"
   },
   "dependencies": {
-    "moment-timezone": "^0.5.4",
-    "underscore": "^1.8.3"
+    "moment-timezone": "^0.5.26",
+    "underscore": "^1.9.1"
   },
   "devDependencies": {
-    "@hughescr/eslint-config-default": "^2.1.0",
-    "eslint": "^4.18.2",
-    "eslint-plugin-promise": "^3.7.0"
+    "@hughescr/eslint-config-default": "^2.4.5",
+    "eslint": "^6.1.0",
+    "eslint-plugin-promise": "^4.2.1"
   }
 }
